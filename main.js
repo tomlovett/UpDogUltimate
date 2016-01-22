@@ -34,9 +34,11 @@ angular.module('UpDog')
 	};
 
 	$scope.linkage = function(player1, player2) {
-		players: 	[player1, player2],
-		game: 		[0, 0, 0],
-		history: 	[0, 0, 0]
+		return {
+			players: 	[player1, player2],
+			game: 		[0, 0, 0],
+			history: 	[0, 0, 0]
+		}
 	};
 
 	$scope.team = function() {
@@ -48,17 +50,18 @@ angular.module('UpDog')
 	};
 
 	var genTeam = function(roster) {
+		console.log('loading team');
 		var team = $scope.team();
-		for (player in roster) {
-			genLinkages(player, $scope.team.roster);
+		console.log(team);
+		for (var i=0; i<roster.length; i++) {
+			var player = roster[i];
+			player = $scope.player(player.name, player.gender)
+			genLinkages(player, team.roster);
 			team.roster.push(player);
 			team.bench.push(player);
-			if (player.gender == 'm') {
-				team.men.push(player);
-			} else {
-				team.women.push(player);
-			}
+			console.log('player added');
 		}
+		return team;
 	}
 
 	var genLinkages = function(player, bench) {
@@ -133,9 +136,39 @@ angular.module('UpDog')
 		}
 	}
 
-	darkSide = {
-		
-	}
+	var ds = [
+		{ 	name: 	'Court',
+			gender: 'f'
+		},
+		{ 	name: 	'Scout',
+			gender: 'f'
+		},
+		{ 	name: 	'Hammy',	
+			gender: 'f'
+		},
+		{ 	name: 	'Allie',
+			gender: 'f'
+		},
+		{ 	name: 	'Tom',
+			gender: 'm'
+		},
+		{ 	name: 	'Micro',
+			gender: 'm'
+		},
+		{ 	name: 	'Jake',
+			gender: 'm'
+		},
+		{ 	name: 	'Zybert',
+			gender: 'm'
+		},
+		{ 	name: 	'Johnny',
+			gender: 'm'
+		},
+		{ 	name: 	'David',
+			gender: 'm'
+		}
+	];
 
+	var darkSide = genTeam(ds);
 
-}])
+}]);
