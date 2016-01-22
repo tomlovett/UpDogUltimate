@@ -17,7 +17,7 @@
 
 		<div class='scores-subs'>
 			<button class='record-score us' ng-hide='substitutionMode' ng-click="recordScore(true)">We scored!!</button>
-			<button ng-show='substitutionMode' ng-click='doneSubstitutions()'>Done Substiutions</button>
+			<button ng-show='substitutionMode' ng-click='doneSubstitutions()'>Done Substitutions</button>
 			<button class='record-score them' ng-hide='substitutionMode' ng-click="recordScore(false)">They scored...</button>
 		</div>
 
@@ -31,10 +31,10 @@
 			<ol>
 				<li ng-repeat="girl in benchWomen | orderBy: 'handle' ">{{girl.handle}}</li>
 			</ol>
-		<div class='undo'>
+<!-- 		<div class='undo'>
 			<h3 ng-click='undo()'>UNDO</h3>
-		</div>
-		<!-- <button>Clear Field</button> -->
+		</div> -->
+		<button ng-click="clearLine" ng-show="substitutionMode">Clear Field</button>
 		<div class='field'>
 			<ol>
 				<li ng-repeat="player in field | orderBy: 'handle' ">{{player.handle}}</li>
