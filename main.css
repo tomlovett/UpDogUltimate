@@ -1,9 +1,23 @@
-.score {
+body {
+	background-color: black;
+	color: white;
+}
 
+.score {
+	font-style: bold;
+	font-size: 2em;
+}
+
+.us {
+	background-color: green;
+}
+
+.them {
+	background-color: red;
 }
 
 .team-name {
-	
+
 }
 
 .male {

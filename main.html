@@ -2,33 +2,41 @@
 <html ng-app="UpDog">
 	<head>
 		<title>Angular practice</title>
-		<link rel="stylesheet" href="ex4-1-2.css">
+		<link rel="stylesheet" href="main.css">
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular.js"></script>
 		<script type="text/javascript" src="main.js"></script>
 	</head>
-	<body ng-controller="XXX">
+	<body ng-controller="gameManager">
 		<div class="scoreboard">
 			<span class="score">{{us}} - {{them}}
-			<span class="team-name">Us Them</span>
+			<br>
+			<span class="team-name">US</span>
+			<span class="timer" ng-show="timerOn">{{timer}}</span>
+			<span class="team-name">THEM</span>
 		</div>
 
 		<div class='scores-subs'>
-			<button class='record-score us-color' ng-hidden='substitutionMode'>We scored!!</button>
-			<button ng-show='substitutionMode'>Done Substiutions</button>
-			<button class='record-score them-color' ng-hidden='substitutionMode'>They scored...</button>
+			<button class='record-score us' ng-hide='substitutionMode' ng-click="recordScore(true)">We scored!!</button>
+			<button ng-show='substitutionMode' ng-click='doneSubstitutions()'>Done Substiutions</button>
+			<button class='record-score them' ng-hide='substitutionMode' ng-click="recordScore(false)">They scored...</button>
 		</div>
 
 		<div class='bench men'>
+		<!-- possibility rotate between two sets, scroll up and down -->
 			<ol>
-				<li ng-repeat="guy in benchMen | orderBy: 'name' ">{{guy}}</li>
+				<li ng-repeat="guy in benchMen | orderBy: 'handle' ">{{guy.handle}}</li>
 			</ol>
 		</div>
 		<div class='bench women'>
 			<ol>
-				<li ng-repeat="girl in benchWomen | orderBy: 'name' ">{{girl}}</li>
+				<li ng-repeat="girl in benchWomen | orderBy: 'handle' ">{{girl.handle}}</li>
 			</ol>
+		<div class='undo'>
+			<h3 ng-click='undo()'>UNDO</h3>
+		</div>
+		<!-- <button>Clear Field</button> -->
 		<div class='field'>
 			<ol>
-				<li ng-repeat="player in field | orderBy: 'name' ">{{player}}</li>
+				<li ng-repeat="player in field | orderBy: 'handle' ">{{player.handle}}</li>
 			</ol>
 		</div>
