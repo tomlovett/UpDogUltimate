@@ -109,6 +109,7 @@ angular.module('UpDog')
 		}
 		scorePlayers(score);
 		scoreTeamLinkages(score);
+		console.log($scope.team.field[0].linkages)
 		$scope.subMode = true;
 	}
 
@@ -162,9 +163,7 @@ angular.module('UpDog')
 
 	$scope.subOff = function(i, subMode) {
 		if (!subMode) { return; }
-		console.log('$scope index: ', i);
 		var player = $scope.team.field[i];
-		console.log(player.name);
 		$scope.team.field.splice(i, 1)
 		if (player.gender == 'm') {
 			var bench = $scope.team.benchMen;
@@ -184,20 +183,20 @@ angular.module('UpDog')
 	}
 
 	var ds = [
-		{ 	name: 	'Court', gender: 'f' },
-		{ 	name: 	'Scout', gender: 'f' },
-		{ 	name: 	'Hammy', gender: 'f' },
-		{ 	name: 	'Allie', gender: 'f' },
-		{ 	name: 	'Caitlin', gender: 'f' },
-		{ 	name: 	'Laurel', gender: 'f' },
-		{ 	name: 	'Stan', gender: 'm' },
-		{ 	name: 	'Kosti', gender: 'm' },
-		{ 	name: 	'Tom', gender: 'm'   },
-		{ 	name: 	'Micro', gender: 'm' },
-		{ 	name: 	'Jake', gender: 'm'  },
-		{ 	name: 	'Zybert', gender: 'm'},
-		{ 	name: 	'Johnny', gender: 'm'},
-		{ 	name: 	'David', gender: 'm'}
+		{ 	name: 	'Court', 	gender: 'f'	},
+		{ 	name: 	'Scout', 	gender: 'f' },
+		{ 	name: 	'Hammy', 	gender: 'f' },
+		{ 	name: 	'Allie', 	gender: 'f' },
+		{ 	name: 	'Caitlin',	gender: 'f' },
+		{ 	name: 	'Laurel', 	gender: 'f' },
+		{ 	name: 	'Stan', 	gender: 'm' },
+		{ 	name: 	'Kosti', 	gender: 'm' },
+		{ 	name: 	'Tom', 		gender: 'm' },
+		{ 	name: 	'Micro', 	gender: 'm' },
+		{ 	name: 	'Jake', 	gender: 'm' },
+		{ 	name: 	'Zybert', 	gender: 'm' },
+		{ 	name: 	'Johnny', 	gender: 'm' },
+		{ 	name: 	'David', 	gender: 'm' }
 	];
 
 	$scope.darkSide = genTeam($scope.team, ds);
