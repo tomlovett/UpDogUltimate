@@ -1,7 +1,7 @@
 angular.module('UpDog', []);
 
 angular.module('UpDog')
-	.controller('gameManager', ['$scope', function($scope) {
+	.controller('gameManager', ['$scope', '$timeout', function($scope, $timeout) {
 
 /* initial values */
 /* -------------- */
@@ -65,6 +65,9 @@ angular.module('UpDog')
 				team.benchWomen.push(player);
 			}
 		}
+		team.benchWomen.sort()
+		team.benchMen.sort()
+		team.field.sort()
 		return team;
 	}
 
@@ -93,9 +96,8 @@ angular.module('UpDog')
 	}
 
 	var scorePlayers = function(score) {
-		for (player in $scope.team.field) {
-				console.log(player)
-				markScore(player, score)
+		for (var i=0; i < $scope.team.field.length; i++) {
+			markScore($scope.team.field[i], score)
 			}
 	}
 
@@ -123,36 +125,44 @@ angular.module('UpDog')
 		$scope.subMode = false;
 	}
 
-	$scope.subOn = function(player, gender, subMode) {
+	$scope.subOn = function(i, gender, subMode) {
 		if (!subMode) { return; }
-		console.log('subOn!')
+		var player;
+		var bench;
 		if (gender === 'm') {
-			var bench = $scope.team.benchMen;
+			player = $scope.team.benchMen[i]
+			bench = $scope.team.benchMen;
 		} else {
-			var bench = $scope.team.benchWomen;
+			player = $scope.team.benchWomen[i]
+			bench = $scope.team.benchWomen;
 		}
-		var index = bench.indexOf(player)
-		bench.splice(index, 1)
-		$scope.team.field.push(player)
+		bench.splice(i, 1);
+		bench.sort();
+		$scope.team.field.push(player);
+		$scope.team.field.sort();
 		// sub in a way that players are inherently sorted?
 	}
 
-	$scope.subOff = function(player, subMode) {
+	$scope.subOff = function(i, subMode) {
 		if (!subMode) { return; }
-		var index = $scope.team.field.indexOf(player)
-		$scope.team.field.splice(index, 1)
+		console.log('$scope index: ', i);
+		var player = $scope.team.field[i];
+		console.log(player.name);
+		$scope.team.field.splice(i, 1)
 		if (player.gender == 'm') {
 			var bench = $scope.team.benchMen;
 		} else {
 			var bench = $scope.team.benchWomen;
 
 		}
-		bench.push(player)
+		bench.push(player);
+		bench.sort();
+		$scope.team.field.sort();
 	}
 
 	$scope.clearLine = function() {
-		for (player in $scope.team.field) {
-			$scope.subOff(player);
+		while ($scope.team.field.length > 0) {
+			$scope.subOff(0, true);
 		}
 	}
 
@@ -190,8 +200,7 @@ angular.module('UpDog')
 	];
 
 	$scope.darkSide = genTeam($scope.team, ds);
-	$scope.subOn($scope.darkSide.benchMen[0], 'm', true);
+	// $scope.subOn($scope.darkSide.benchMen[0], 'm', true);
 	console.log($scope.darkSide.benchMen[0]);
-	console.log($scope.darkSide.roster[0].name.slice(0))
 
 }]);

@@ -28,21 +28,21 @@
 
 		<div class='bench men'>Bench
 			<ul>
-				<li class="male" ng-repeat="guy in team.benchMen | orderBy: 'handle' " ng-click="subOff(guy, 'm', subMode)">{{guy.handle}}</li>
+				<li class="male" ng-repeat="guy in team.benchMen" ng-click="subOn($index, 'm', subMode)">{{guy.handle}}</li>
 			</ul>
 		</div>
 		<div class='bench women'>
 			<ul>
-				<li class="female" ng-repeat="girl in team.benchWomen | orderBy: 'handle' " ng-click="subOff(girl, 'f', subMode)">{{girl.handle}}</li>
+				<li class="female" ng-repeat="girl in team.benchWomen" ng-click="subOn($index, 'f', subMode)">{{girl.handle}}</li>
 			</ul>
 		</div>
 
 		<div class='bench'>Field
 			<ul>
-				<li ng-repeat="player in team.field | orderBy: 'handle' " ng-click="subOff(player, subMode)">{{player.handle}}</li>
+				<li ng-repeat="player in team.field" ng-click="subOff($index, subMode)">{{player.handle}}</li>
 				<!-- ng-click="subOff(self, subMode)" -->
 			</ul>
 		</div>
-		<button ng-click="clearLine" ng-show="subMode">Clear Field</button>
+		<button ng-click="clearLine()" ng-show="subMode">Clear Line</button>
 </body>
 </html>
