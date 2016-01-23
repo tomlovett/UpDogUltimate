@@ -83,8 +83,6 @@ angular.module('UpDog')
 	}
 
 	var sortPlayers = function(a, b) {
-		console.log('sortPlayers');
-		console.log('a: ', a, ' b: ', b);
 		if (a.gender === 'f' && b.gender === 'm') {
 			return -1;
 		} else if (a.gender === 'm' && b.gender === 'f') {
@@ -186,40 +184,22 @@ angular.module('UpDog')
 	}
 
 	var ds = [
-		{ 	name: 	'Court',
-			gender: 'f'
-		},
-		{ 	name: 	'Scout',
-			gender: 'f'
-		},
-		{ 	name: 	'Hammy',	
-			gender: 'f'
-		},
-		{ 	name: 	'Allie',
-			gender: 'f'
-		},
-		{ 	name: 	'Tom',
-			gender: 'm'
-		},
-		{ 	name: 	'Micro',
-			gender: 'm'
-		},
-		{ 	name: 	'Jake',
-			gender: 'm'
-		},
-		{ 	name: 	'Zybert',
-			gender: 'm'
-		},
-		{ 	name: 	'Johnny',
-			gender: 'm'
-		},
-		{ 	name: 	'David',
-			gender: 'm'
-		}
+		{ 	name: 	'Court', gender: 'f' },
+		{ 	name: 	'Scout', gender: 'f' },
+		{ 	name: 	'Hammy', gender: 'f' },
+		{ 	name: 	'Allie', gender: 'f' },
+		{ 	name: 	'Caitlin', gender: 'f' },
+		{ 	name: 	'Laurel', gender: 'f' },
+		{ 	name: 	'Stan', gender: 'm' },
+		{ 	name: 	'Kosti', gender: 'm' },
+		{ 	name: 	'Tom', gender: 'm'   },
+		{ 	name: 	'Micro', gender: 'm' },
+		{ 	name: 	'Jake', gender: 'm'  },
+		{ 	name: 	'Zybert', gender: 'm'},
+		{ 	name: 	'Johnny', gender: 'm'},
+		{ 	name: 	'David', gender: 'm'}
 	];
 
 	$scope.darkSide = genTeam($scope.team, ds);
-	// $scope.subOn($scope.darkSide.benchMen[0], 'm', true);
-	console.log($scope.darkSide.benchMen[0]);
 
 }]);
