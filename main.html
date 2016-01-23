@@ -8,40 +8,41 @@
 	</head>
 	<body ng-controller="gameManager">
 		<div class="scoreboard">
-			<span class="score">{{us}} - {{them}}
-			<br>
-			<span class="team-name">US</span>
-			<span class="timer" ng-show="timerOn">{{timer}}</span>
-			<span class="team-name">THEM</span>
+			<div class="score col-1-4">{{us}}</div>
+			<div class="score col-1-4"> - </div>
+			<div class="score col-1-4">{{them}}</div>
 		</div>
 
-		<div class='scores-subs'>
-			<button class='record-score us' ng-hide='substitutionMode' ng-click="recordScore(true)">We scored!!</button>
-			<button ng-show='substitutionMode' ng-click='doneSubstitutions()'>Done Substitutions</button>
-			<button class='record-score them' ng-hide='substitutionMode' ng-click="recordScore(false)">They scored...</button>
+		<div class="scoreboard">
+			<div class="team-name col-1-4">US</div>
+			<div class="timer col-1-4" ng-show="timerOn">{{timer}}</div>
+			<div class="team-name col-1-4">THEM</div>
+		</div>
+
+		<div class='scores-subs'> 
+		<!-- build three container div's to generate space when buttons are hidden -->
+			<button class='record-score us' ng-hide='subMode' ng-click="recordScore(true)">We scored!!</button>
+			<button ng-show='subMode' ng-click='doneSubbing()'>Done Substitutions</button>
+			<button class='record-score them' ng-hide='subMode' ng-click="recordScore(false)">They scored...</button>
 		</div>
 
 		<div class='bench men'>Bench
-		<!-- possibility rotate between two sets, scroll up and down -->
 			<ul>
-				<li ng-repeat="guy in darkSide.bench | orderBy: 'handle' ">{{guy.handle}}</li>
+				<li class="male" ng-repeat="guy in team.benchMen | orderBy: 'handle' " ng-click="subOff(guy, 'm', subMode)">{{guy.handle}}</li>
 			</ul>
 		</div>
-<!-- 		<div class='bench women'>
+		<div class='bench women'>
 			<ul>
-				<li ng-repeat="girl in benchWomen | orderBy: 'handle' ">{{girl.handle}}</li>
+				<li class="female" ng-repeat="girl in team.benchWomen | orderBy: 'handle' " ng-click="subOff(girl, 'f', subMode)">{{girl.handle}}</li>
 			</ul>
-		</div> -->
-<!-- 		<div class='undo'>
-			<h3 ng-click='undo()'>UNDO</h3>
-		</div> -->
+		</div>
 
 		<div class='bench'>Field
 			<ul>
-				<li ng-repeat="player in field | orderBy: 'handle' ">{{player.handle}}</li>
-				<!-- ng-click="subOff(self, substitutionMode)" -->
+				<li ng-repeat="player in team.field | orderBy: 'handle' " ng-click="subOff(player, subMode)">{{player.handle}}</li>
+				<!-- ng-click="subOff(self, subMode)" -->
 			</ul>
 		</div>
-		<button ng-click="clearLine" ng-show="substitutionMode">Clear Field</button>
+		<button ng-click="clearLine" ng-show="subMode">Clear Field</button>
 </body>
 </html>

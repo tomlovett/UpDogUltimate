@@ -7,7 +7,7 @@ angular.module('UpDog')
 /* -------------- */
 	$scope.us = 0;
 	$scope.them = 0;
-	$scope.substitutionMode = true;
+	$scope.subMode = true;
 
 	$scope.undoHistory = [];
 
@@ -41,16 +41,17 @@ angular.module('UpDog')
 		}
 	};
 
-	$scope.team = function() {
+	$scope.newTeam = function() {
 		return {
 			roster: 	[],
-			bench: 		[],
+			benchMen: 	[],
+			benchWomen: [],
 			field: 		[]
 		}
 	};
 
-	var genTeam = function(roster) {
-		var team = $scope.team();
+	$scope.team = $scope.newTeam()
+	var genTeam = function(team, roster) {
 		for (var i=0; i<roster.length; i++) {
 			var player = roster[i];
 			player = $scope.player(player.name, player.gender)
@@ -58,7 +59,11 @@ angular.module('UpDog')
 				genLinkages(player, team.roster);
 			}
 			team.roster.push(player);
-			team.bench.push(player);
+			if (player.gender == 'm') {
+				team.benchMen.push(player);
+			} else {
+				team.benchWomen.push(player);
+			}
 		}
 		return team;
 	}
@@ -66,8 +71,8 @@ angular.module('UpDog')
 	var genLinkages = function(player, roster) {
 		for (var i=0; i<roster.length; i++) {
 			var link = $scope.linkage(player, roster[i]);
-			player.linkages[roster[i].name.valueOf()] = link;
-			roster[i].linkages[player.name.valueOf()] = link;
+			player.linkages[roster[i].name.slice(0)] = link; // .slice(0) to workaround 
+			roster[i].linkages[player.name.slice(0)] = link;
 		}
 	}
 
@@ -84,11 +89,12 @@ angular.module('UpDog')
 		}
 		scorePlayers(score);
 		scoreTeamLinkages(score);
-		$scope.substitutionMode = true;
+		$scope.subMode = true;
 	}
 
 	var scorePlayers = function(score) {
 		for (player in $scope.team.field) {
+				console.log(player)
 				markScore(player, score)
 			}
 	}
@@ -113,21 +119,36 @@ angular.module('UpDog')
 
 /* handling substitutions */
 /* ---------------------- */
-	$scope.doneSubstitutions = function() {
-		$scope.substitutionMode = false;
+	$scope.doneSubbing = function() {
+		$scope.subMode = false;
 	}
 
-	$scope.subOn = function(player) {
-		var index = $scope.team.bench.indexOf(player)
-		$scope.team.bench.splice(index, 1)
-		$scope.team.field.push()
+	$scope.subOn = function(player, gender, subMode) {
+		if (!subMode) { return; }
+		console.log('subOn!')
+		if (gender === 'm') {
+			var bench = $scope.team.benchMen;
+		} else {
+			var bench = $scope.team.benchWomen;
+		}
+		var index = bench.indexOf(player)
+		bench.splice(index, 1)
+		$scope.team.field.push(player)
 		// sub in a way that players are inherently sorted?
 	}
 
-	$scope.subOff = function(player) {
+	$scope.subOff = function(player, subMode) {
+		if (!subMode) { return; }
 		var index = $scope.team.field.indexOf(player)
 		$scope.team.field.splice(index, 1)
-		$scope.team.bench.push()		}
+		if (player.gender == 'm') {
+			var bench = $scope.team.benchMen;
+		} else {
+			var bench = $scope.team.benchWomen;
+
+		}
+		bench.push(player)
+	}
 
 	$scope.clearLine = function() {
 		for (player in $scope.team.field) {
@@ -168,6 +189,9 @@ angular.module('UpDog')
 		}
 	];
 
-	$scope.darkSide = genTeam(ds);
+	$scope.darkSide = genTeam($scope.team, ds);
+	$scope.subOn($scope.darkSide.benchMen[0], 'm', true);
+	console.log($scope.darkSide.benchMen[0]);
+	console.log($scope.darkSide.roster[0].name.slice(0))
 
 }]);

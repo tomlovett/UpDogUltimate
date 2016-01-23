@@ -6,12 +6,17 @@ body {
 }
 
 .score {
-	font-style: bold;
+	font-weight: bold;
 	font-size: 2em;
 }
 
-.scoreboard {
+.col-1-4 {
+	width: 25%;
+	margin: 0;
 	display: inline-block;
+}
+
+.scoreboard {
 	text-align: center;
 }
 
@@ -28,15 +33,17 @@ body {
 }
 
 .male {
-	background-color: blue;
+	background-color: #0000b3;
 }
 
 .female {
-	background-color: pink;
+	background-color: #ff33cc;
 }
 
 .bench {
+	width: 25%;
 	display: inline-block;
+	height: 50%;
 }
 
 ul {
@@ -44,6 +51,11 @@ ul {
 	padding-left: 0;
 	text-align: initial;
 	border: 1px solid white;
+}
+
+li {
+	margin: 3% 0;
+	font-size: 1.25em;
 }
 
 .record-score{
