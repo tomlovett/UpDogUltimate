@@ -1,11 +1,18 @@
 body {
 	background-color: black;
 	color: white;
+	max-width: 480px;
+	text-align: center;
 }
 
 .score {
 	font-style: bold;
 	font-size: 2em;
+}
+
+.scoreboard {
+	display: inline-block;
+	text-align: center;
 }
 
 .us {
@@ -26,6 +33,17 @@ body {
 
 .female {
 	background-color: pink;
+}
+
+.bench {
+	display: inline-block;
+}
+
+ul {
+	list-style-type: none;
+	padding-left: 0;
+	text-align: initial;
+	border: 1px solid white;
 }
 
 .record-score{

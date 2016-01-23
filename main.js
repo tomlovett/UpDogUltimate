@@ -50,25 +50,24 @@ angular.module('UpDog')
 	};
 
 	var genTeam = function(roster) {
-		console.log('loading team');
 		var team = $scope.team();
-		console.log(team);
 		for (var i=0; i<roster.length; i++) {
 			var player = roster[i];
 			player = $scope.player(player.name, player.gender)
-			genLinkages(player, team.roster);
+			if (team.roster.length > 0) {
+				genLinkages(player, team.roster);
+			}
 			team.roster.push(player);
 			team.bench.push(player);
-			console.log('player added');
 		}
 		return team;
 	}
 
-	var genLinkages = function(player, bench) {
-		for (teammate in bench) {
-			var link = $scope.linkage(player, teammate);
-			player.linkages[teammate.name] = link;
-			teammate.linkages[player.name] = link;
+	var genLinkages = function(player, roster) {
+		for (var i=0; i<roster.length; i++) {
+			var link = $scope.linkage(player, roster[i]);
+			player.linkages[roster[i].name.valueOf()] = link;
+			roster[i].linkages[player.name.valueOf()] = link;
 		}
 	}
 
@@ -169,6 +168,6 @@ angular.module('UpDog')
 		}
 	];
 
-	var darkSide = genTeam(ds);
+	$scope.darkSide = genTeam(ds);
 
 }]);

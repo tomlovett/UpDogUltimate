@@ -21,23 +21,27 @@
 			<button class='record-score them' ng-hide='substitutionMode' ng-click="recordScore(false)">They scored...</button>
 		</div>
 
-		<div class='bench men'>
+		<div class='bench men'>Bench
 		<!-- possibility rotate between two sets, scroll up and down -->
-			<ol>
-				<li ng-repeat="guy in benchMen | orderBy: 'handle' ">{{guy.handle}}</li>
-			</ol>
+			<ul>
+				<li ng-repeat="guy in darkSide.bench | orderBy: 'handle' ">{{guy.handle}}</li>
+			</ul>
 		</div>
-		<div class='bench women'>
-			<ol>
+<!-- 		<div class='bench women'>
+			<ul>
 				<li ng-repeat="girl in benchWomen | orderBy: 'handle' ">{{girl.handle}}</li>
-			</ol>
+			</ul>
+		</div> -->
 <!-- 		<div class='undo'>
 			<h3 ng-click='undo()'>UNDO</h3>
 		</div> -->
-		<button ng-click="clearLine" ng-show="substitutionMode">Clear Field</button>
-		<div class='field'>
-			<ol>
+
+		<div class='bench'>Field
+			<ul>
 				<li ng-repeat="player in field | orderBy: 'handle' ">{{player.handle}}</li>
 				<!-- ng-click="subOff(self, substitutionMode)" -->
-			</ol>
+			</ul>
 		</div>
+		<button ng-click="clearLine" ng-show="substitutionMode">Clear Field</button>
+</body>
+</html>
