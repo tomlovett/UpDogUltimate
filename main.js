@@ -50,7 +50,10 @@ angular.module('UpDog')
 		}
 	};
 
+/* team generation */
+/* --------------- */
 	$scope.team = $scope.newTeam()
+
 	var genTeam = function(team, roster) {
 		for (var i=0; i<roster.length; i++) {
 			var player = roster[i];
@@ -65,17 +68,33 @@ angular.module('UpDog')
 				team.benchWomen.push(player);
 			}
 		}
-		team.benchWomen.sort()
-		team.benchMen.sort()
-		team.field.sort()
+		team.benchWomen.sort(sortPlayers)
+		team.benchMen.sort(sortPlayers)
+		team.field.sort(sortPlayers)
 		return team;
 	}
 
 	var genLinkages = function(player, roster) {
 		for (var i=0; i<roster.length; i++) {
 			var link = $scope.linkage(player, roster[i]);
-			player.linkages[roster[i].name.slice(0)] = link; // .slice(0) to workaround 
+			player.linkages[roster[i].name.slice(0)] = link; // .slice(0) to call name as a string, rather than the player object
 			roster[i].linkages[player.name.slice(0)] = link;
+		}
+	}
+
+	var sortPlayers = function(a, b) {
+		console.log('sortPlayers');
+		console.log('a: ', a, ' b: ', b);
+		if (a.gender === 'f' && b.gender === 'm') {
+			return -1;
+		} else if (a.gender === 'm' && b.gender === 'f') {
+			return 1;
+		} else if (a.name.toLowerCase() < b.name.toLowerCase()) {
+			return -1;
+		} else if (a.name.toLowerCase() > b.name.toLowerCase()) {
+			return 1;
+		} else {
+			return 0;
 		}
 	}
 
@@ -137,9 +156,9 @@ angular.module('UpDog')
 			bench = $scope.team.benchWomen;
 		}
 		bench.splice(i, 1);
-		bench.sort();
+		bench.sort(sortPlayers);
 		$scope.team.field.push(player);
-		$scope.team.field.sort();
+		$scope.team.field.sort(sortPlayers);
 		// sub in a way that players are inherently sorted?
 	}
 
@@ -156,8 +175,8 @@ angular.module('UpDog')
 
 		}
 		bench.push(player);
-		bench.sort();
-		$scope.team.field.sort();
+		bench.sort(sortPlayers);
+		$scope.team.field.sort(sortPlayers);
 	}
 
 	$scope.clearLine = function() {

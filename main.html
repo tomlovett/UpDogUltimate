@@ -39,7 +39,7 @@
 
 		<div class='bench'>Field
 			<ul>
-				<li ng-repeat="player in team.field" ng-click="subOff($index, subMode)">{{player.handle}}</li>
+				<li ng-repeat="player in team.field" ng-click="subOff($index, subMode)" ng-class="{'women': (player.gender == 'f')}" ng-class="{'men': (player.gender == 'm')}">{{player.handle}}</li>
 				<!-- ng-click="subOff(self, subMode)" -->
 			</ul>
 		</div>
