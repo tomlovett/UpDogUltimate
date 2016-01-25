@@ -1,3 +1,7 @@
+// To implement: undoScore(), team-building screen, game settings
+
+// how to move between different windows (game/settings), how to pass the data from team-building to game
+
 angular.module('UpDog', []);
 
 angular.module('UpDog')
@@ -137,6 +141,10 @@ angular.module('UpDog')
 		}
 	}
 
+	$scope.undoScore = function(){
+		
+	}
+
 /* handling substitutions */
 /* ---------------------- */
 	$scope.doneSubbing = function() {
@@ -201,4 +209,7 @@ angular.module('UpDog')
 
 	$scope.darkSide = genTeam($scope.team, ds);
 
+	// console.log($scope.darkSide);
+
+}
 }]);
