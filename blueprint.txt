@@ -1,0 +1,15 @@
+gameOps:
+- load perma-rosters
+- load game settings
+- adjust active roster
+- adjust game settings
+- pass on-field events
+
+
+Settings module:
+- pre-loaded: 4/3 7's hard cap 15
+
+Factories:
+- new player, edit players
+- edit teams
+- print stats

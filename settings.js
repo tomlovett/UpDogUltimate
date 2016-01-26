@@ -3,7 +3,7 @@ angular.module('settings', []);
 angular.module('settings')
 	.controller('settings', ['$scope', function($scope) {
 
-		$scope.viewKey = [true, false, false]; // players, team, game settings
+		$scope.viewKey = [true, false, false, false]; // players, team, game settings, stats
 	
 		$scope.changeView = function(index) {
 			console.log('changeView fired. key: ', index);

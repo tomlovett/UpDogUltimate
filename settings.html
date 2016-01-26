@@ -8,28 +8,34 @@
 </head>
 
 <body ng-controller="settings">
-	<div>
-		<span ng-click='changeView(0)' ng-hide='viewKey[0]' class='col-1-3'>Edit Players</span>
-		<span ng-click='changeView(1)' ng-hide='viewKey[1]' class='col-1-3'>Edit Teams</span>
-		<span ng-click='changeView(2)' ng-hide='viewKey[2]' class='col-1-3'>Game Settings</span>
+	<div style="width: 100%">
+		<span ng-click='changeView(0)'>Players</span>
+		<span ng-click='changeView(1)'>Teams</span>
+		<span ng-click='changeView(2)'>Game Settings</span>
+		<span ng-click='changeView(3)'>Stats</span>
 		<!-- transitions so it's not so jarring, to show a stable order -->
 	</div>
 
 	<div ng-show='viewKey[0]'>
 		<h3>Add Player</h3>
-		<label>Player Name:</label><input type='text' ng-model='newPlayer[0]'><br>
-		<label>Nickname:</label><input type='text' ng-model='newPlayer[1]'><br>
-		<input type='radio' ng-model='newPlayer[2]'>Male<input type='radio' ng-model='newPlayer[3]'>Female<br>
+		<span>Player Name:</span><input type='text' ng-model='newPlayer[0]'><br>
+		<span>Nickname:</span><input type='text' ng-model='newPlayer[1]'><br>
+			<input type='radio' ng-model='newPlayer[2]'>Male
+			<input type='radio' ng-model='newPlayer[3]'>Female
+		<span>Add player to:</span>
+		<input type='checkbox' ng-repeat='team in TEAMSTORAGE'>{{team}}
 		<button type='button' ng-click-'submitPlayer()'>Submit Player</button>
+		<h3>Edit Players</h3>
+		<span ng-repeat='player in PLAYERSTORAGE'>{{player}}</span>
 		<!-- add teams already in local storage -->
 		<!-- ng-repeat teams in storage with checkboxes -->
 	</div>
 
 	<div ng-show='viewKey[1]'>
-	<h3>Edit Team</h3>
+	<h3>Edit Teams</h3>
 		<!-- display teams in local storage -->
 		<!-- add team, move local players on/off team -->
-		<div> add a team</div>
+		<div>Create a team</div>
 		<div> edit an existing team's roster</div>
 	</div>
 
@@ -41,6 +47,10 @@
 			<label><input type='text' ng-model='genderRatio[0]' maxlength='1' size='1'>Guys</label>
 			<label><input type='text' ng-model='genderRatio[1]' maxlength='1' size='1'>Girls</label>
 		</div>
+	</div>
+
+	<div ng-show='viewKey[3]'>
+
 	</div>
 
 </body>

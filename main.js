@@ -142,7 +142,7 @@ angular.module('UpDog')
 	}
 
 	$scope.undoScore = function(){
-		
+
 	}
 
 /* handling substitutions */
@@ -211,5 +211,5 @@ angular.module('UpDog')
 
 	// console.log($scope.darkSide);
 
-}
+
 }]);
