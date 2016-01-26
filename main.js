@@ -2,9 +2,27 @@
 
 // how to move between different windows (game/settings), how to pass the data from team-building to game
 
-angular.module('UpDog', []);
+var UpDog = angular.module('UpDog', ['ngRoute']);
 
-angular.module('UpDog')
+UpDog.config(function($routeProvider) { 
+	$routeProvider
+		.when('/', {
+			templateUrl : 'pages/game.html',
+			controller  : 'gameManager'
+		})
+
+		.when('/settings', {
+			templateUrl : 'pages/settings.html'
+			controller  : 'settingsController'
+		})
+
+		.when('/stats', {
+			templateUrl : 'pages/stats.html'
+			controller  : 'statsController'
+		});
+});
+
+upDog.module('UpDog')
 	.controller('gameManager', ['$scope', '$timeout', function($scope, $timeout) {
 
 /* initial values */

@@ -16,4 +16,6 @@ angular.module('settings')
 			console.log($scope.viewKey);
 		}
 
+// sorting roster everytime a player is added or removed
+
 	}])

@@ -1,15 +1,57 @@
-gameOps:
+gameOps interface:
 - load perma-rosters
-- load game settings
-- adjust active roster
+- load/edit game settings
+- adjust game roster
 - adjust game settings
-- pass on-field events
+- pass on-field events to factories
 
-
-Settings module:
+Settings interface:
+- add player form
+- edit player: display all players, interface
+- edit team: players on/not-on, interface
 - pre-loaded: 4/3 7's hard cap 15
 
+Stats:
+- display individual stats: individual; history & linkages sorted by total numbers
+- display team stats: list individual rows
+  - linkages/history selector on top
+- ng-click(expand) ng-repeat
+
 Factories:
-- new player, edit players
-- edit teams
-- print stats
+- create player
+- edit player: attributes, team affiliations
+- modify teams
+- send out stats
+- game settings - obj
+  - pre-loaded: 7's/4-3/15/90 mins
+  - create pre-loaded
+
+- storing data between sessions
+- how to get working prototypes out to my friends
+- pre-loading data into factories
+- learning $route
+
+- moveTo(player, team) add and sort new array
+- removeFrom(player, team) remove player and sort array
+- moveFromTo(player, oldTeam, newTeam) removeFrom, moveTo combo
+
+UpDog.config(['$routeProvider',
+	function($routeProvider) {
+		$routeProvider
+			.when('/', {
+				templateUrl : 'pages/game.html',
+				controller  : 'mainController'
+			})
+
+			.when('/settings', {
+				templateUrl : 'pages/settings.html',
+				controller  : 'settingsController'
+			})
+
+			.when('/stats', {
+				templateUrl : 'pages/stats.html',
+				controller  : 'statsController'
+			});
+	}]);
+
+Make it work, then make it better.
