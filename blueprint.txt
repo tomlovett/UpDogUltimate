@@ -12,46 +12,31 @@ Settings interface:
 - pre-loaded: 4/3 7's hard cap 15
 
 Stats:
-- display individual stats: individual; history & linkages sorted by total numbers
+- display individual stats via ng-repeat; ng-click -> expand into personal linkages
 - display team stats: list individual rows
   - linkages/history selector on top
-- ng-click(expand) ng-repeat
 
 Factories:
 - create player
 - edit player: attributes, team affiliations
-- modify teams
+- modify teams: moveTo, removeFrom, moveFromTo
 - send out stats
-- game settings - obj
-  - pre-loaded: 7's/4-3/15/90 mins
+- game settings - obj -> latter
   - create pre-loaded
+
+Factories:
+- Player: { addTo, removeFrom, moveFromTo, newPlayer(name, handle, gender, [teams]), }
+- Linkages: { scoreLinkages([line], val), genLinkages([players]) }
+
+
 
 - storing data between sessions
 - how to get working prototypes out to my friends
 - pre-loading data into factories
 - learning $route
 
-- moveTo(player, team) add and sort new array
+- addTo(player, team) add and sort new array
 - removeFrom(player, team) remove player and sort array
 - moveFromTo(player, oldTeam, newTeam) removeFrom, moveTo combo
-
-UpDog.config(['$routeProvider',
-	function($routeProvider) {
-		$routeProvider
-			.when('/', {
-				templateUrl : 'pages/game.html',
-				controller  : 'mainController'
-			})
-
-			.when('/settings', {
-				templateUrl : 'pages/settings.html',
-				controller  : 'settingsController'
-			})
-
-			.when('/stats', {
-				templateUrl : 'pages/stats.html',
-				controller  : 'statsController'
-			});
-	}]);
 
 Make it work, then make it better.
