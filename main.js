@@ -3,22 +3,22 @@ var UpDog = angular.module('UpDog', ['ngRoute']);
 UpDog.config(function($routeProvider) { 
 	$routeProvider
 		.when('/', {
-			templateUrl : 'pages/game.html',
+			templateUrl : 'game.html',
 			controller  : 'gameManager'
 		})
 
 		.when('/settings', {
-			templateUrl : 'pages/settings.html',
+			templateUrl : 'settings.html',
 			controller  : 'settingsController'
 		})
 
 		.when('/stats', {
-			templateUrl : 'pages/stats.html',
+			templateUrl : 'stats.html',
 			controller  : 'statsController'
 		});
 });
 
-UpDog.controller('gameManager', ['$scope', '$timeout', function($scope, $timeout) {
+UpDog.controller('gameManager', ['$scope', '$timeout', 'playerUtil', function($scope, $timeout, playerUtil) {
 
 /* initial values */
 /* -------------- */
@@ -29,6 +29,9 @@ UpDog.controller('gameManager', ['$scope', '$timeout', function($scope, $timeout
 	$scope.undoHistory = [];
 
 	$scope.pointHistory = [];
+
+	$scope.team = playerUtil.darkSide;
+	console.log($scope.team);
 
 /* object models */
 /* ------------- */
@@ -145,7 +148,7 @@ UpDog.controller('gameManager', ['$scope', '$timeout', function($scope, $timeout
 
 }]);
 
-UpDog.factory('playerFactory', function() {
+UpDog.factory('playerUtil', function() {
 	var service = {};
 
 	service.newPlayer = function(name, gender, handle) {
@@ -209,6 +212,8 @@ UpDog.factory('playerFactory', function() {
 
 /* Pre-loading team */
 /* ---------------- */
+	service.darkSide = newTeam();
+
 	var ds = [
 		{ 	name: 	'Court', 	gender: 'f'	},
 		{ 	name: 	'Scout', 	gender: 'f' },
@@ -228,11 +233,10 @@ UpDog.factory('playerFactory', function() {
 
 
 	ds.forEach(function(person) {
-		var player = newPlayer(person.name, person.gender)
-		addTo(player, darkSide)
+		var player = service.newPlayer(person.name, person.gender)
+		service.addTo(player, darkSide)
 	})
 
-	service.darkSide = newTeam();
 
 	return service;
 });
