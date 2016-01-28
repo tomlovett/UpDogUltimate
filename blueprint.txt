@@ -1,33 +1,24 @@
 gameOps interface:
-- load perma-rosters
-- load/edit game settings
-- adjust game roster
-- adjust game settings
+- load rosters
 - pass on-field events to factories
 
 Settings interface:
 - add player form
 - edit player: display all players, interface
 - edit team: players on/not-on, interface
-- pre-loaded: 4/3 7's hard cap 15
 
 Stats:
-- display individual stats via ng-repeat; ng-click -> expand into personal linkages
-- display team stats: list individual rows
-  - linkages/history selector on top
+- display individual stats via ng-repeat
 
-Factories:
-- create player
-- edit player: attributes, team affiliations
-- modify teams: moveTo, removeFrom, moveFromTo
-- send out stats
-- game settings - obj -> latter
-  - create pre-loaded
+Factory:
+- parsePoint()
+- pre-loaded roster
+later:
+  - create player
+  - edit player: attributes, team affiliations
 
-Factories:
-- Player: { addTo, removeFrom, moveFromTo, newPlayer(name, handle, gender, [teams]), }
-- Linkages: { scoreLinkages([line], val), genLinkages([players]) }
 
+Long-term:
 
 
 - storing data between sessions
@@ -35,8 +26,7 @@ Factories:
 - pre-loading data into factories
 - learning $route
 
-- addTo(player, team) add and sort new array
-- removeFrom(player, team) remove player and sort array
-- moveFromTo(player, oldTeam, newTeam) removeFrom, moveTo combo
+Make it functional first. Track individual scores and point-data for one game at a time. 
+Live stats later. Data analysis later. The ng-click expandPlayer() can be for later. Functional first. parsePoint()
 
 Make it work, then make it better.
