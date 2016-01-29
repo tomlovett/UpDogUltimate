@@ -12,7 +12,6 @@ Stats:
 
 Factory:
 - parsePoint()
-- pre-loaded roster
 later:
   - create player
   - edit player: attributes, team affiliations
