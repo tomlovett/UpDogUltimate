@@ -12,15 +12,34 @@
 
 	<div style='text-align: left'>
 		<p>Player Name: <input type='text' ng-model='player.name'></p>
-		<p ng-show='playerErrors.name' class='error-msg'>Error: Player name required.</p>
+		<p ng-show='nameError' class='error-msg'>Error: Player name required.</p>
 		<p>Player Nickname: (optional) <input type='text' ng-model='player.handle'></p>
-		<p>Gender: (m or f) <input type='text' ng-model='player.gender'></p>
-		<p ng-show='playerErrors.gender' class='error-msg'>Error: gender must be 'm' or 'f'.</p>
-		<button ng-click='submitPlayer()'>Submit</button>
-		<button ng-click='deletePlayer()'>Delete Player</button>
-		<!-- verify delete -->
+<!-- 		<p>Gender: (m or f) <input type='text' ng-model='player.gender'></p>
+		<p ng-hide='verified.gender' class='error-msg'>Error: gender must be 'm' or 'f'.</p> -->
+		<button class='col-1-3' ng-click='submitPlayer("f")'>Submit Girl</button>
+		<div class='col-1-4'></div>
+		<button class='col-1-3' ng-click='submitPlayer("m")'>Submit Guy</button>
+
+		<div style='height: 5vh'></div>
+		<button ng-click='removePlayer()'>Delete Player</button>
+		<!-- verify before deleting -->
+		<!-- place a copy of the edited player here -->
 
 		<!-- checkboxes to adding to a team; later -->
+
+		<div style='height: 20vh'></div>
+		<div class='roster-container'>
+			<div class='bench col-1-3'>
+				<ul>
+					<li class='female' ng-repeat="player in allPlayers | filter: chicksOnly" ng-click="edit(player)">{{player.handle}}</li>
+				</ul>
+			</div>
+			<div class='bench col-1-3'>
+				<ul>
+					<li class='male' ng-repeat="player in allPlayers | filter: dudesOnly" ng-click="edit(player)">{{player.handle}}</li>
+				</ul>
+			</div>
+		</div>
 
 </body>
 </html>

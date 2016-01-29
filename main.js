@@ -18,7 +18,6 @@ UpDog.controller('gameManager', ['$scope', 'utility', function($scope, utility) 
 			$scope.subMode = false;
 			$scope.logOnField();
 			$scope.game.currentPoint.time = Date.now();
-			console.log($scope.game);
 		}
 
 // could combine team.men.field and team.women.field with a pointer array
@@ -32,26 +31,19 @@ UpDog.controller('gameManager', ['$scope', 'utility', function($scope, utility) 
 		}
 
 // can collapse into one function in future, when more functionality added
-		$scope.subOn = function(index, roster) {
+		$scope.sub = function(index, from, to) {
 			if (!$scope.subMode) { return; }
-			var player = roster.bench.splice(index, 1);
-			roster.field.push(player[0]);
+			var player = from.splice(index, 1);
+			to.push(player[0]);
 			$scope.team.sort()
-		}
-
-		$scope.subOff = function(index, roster) {
-			if (!$scope.subMode) { return; }
-			var player = roster.field.splice(index, 1);
-			roster.bench.push(player[0]);
-			$scope.team.sort();
 		}
 
 		$scope.clearLine = function() {
 			while ($scope.team.men.field.length > 0) {
-				$scope.subOff(0, $scope.team.men);
+				$scope.sub(0, $scope.team.men.field, $scope.team.men.bench);
 			}
 			while ($scope.team.women.field.length > 0) {
-				$scope.subOff(0, $scope.team.women);
+				$scope.sub(0, $scope.team.women.field, $scope.team.women.bench);
 			}
 		}
 
@@ -59,27 +51,38 @@ UpDog.controller('gameManager', ['$scope', 'utility', function($scope, utility) 
 
 UpDog.controller('settings', ['$scope', 'utility', function($scope, utility) {
 	$scope.player = {};
-	$scope.playerErrors = { name: false, gender: false };
+	$scope.nameError = false;
 
-	$scope.submitPlayer = function() {
-		$scope.playerErrors = $scopeVerifyInput()
-		if ($scope.playerErrors.name || $scope.playerErrors.gender) {
+
+
+	var allPlayers = utility.darkSide.men.bench.concat(utility.darkSide.women.bench);
+
+	$scope.allPlayers = allPlayers;
+	$scope.chicksOnly = { 'gender': 'f' };
+	$scope.dudesOnly = { 'gender' : 'm' };
+
+	$scope.submitPlayer = function(gender) {
+		$scope.nameError = !/\w+/.test($scope.player.name)
+		if ($scope.nameError) {
+			console.log('failed verification');
 			return;
 		}
-		var player = new Player($scope.player.name, $scope.player.gender, $scope.player.handle);
+		var player = new utility.Player($scope.player.name, gender, $scope.player.handle);
 		console.log(player);
+		$scope.allPlayers.push(player);
 		$scope.player = {};
 	}
 
-	$scope.verifyInput = function() {
-		var result = [false, false];
-		if (!player.name) {
-			result[0] = true;
-		}
-		if (!player.gender.match(/[fm]/)) {
-			result[1] = true;
-		}
-		return result;
+	$scope.edit = function(player) {
+		$scope.player = player;
+	}
+
+	$scope.removePlayer = function() {
+		var index = $scope.allPlayers.indexOf($scope.player)
+		if (index == -1) { return; }
+		$scope.player = {};
+		$scope.allPlayers.splice(index, 1);
+		// can modify fairly easily to remove from roster
 	}
 
 }]);
