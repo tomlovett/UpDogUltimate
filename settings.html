@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html ng-app="UpDog">
+<head>
+	<title>Edit Players</title>
+	<link rel="stylesheet" href="main.css">
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular.js"></script>
+	<script type-'text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore.js"></script>
+	<script type="text/javascript" src="main.js"></script>
+</head>
+
+<body ng-controller="settings">
+
+	<div style='text-align: left'>
+		<p>Player Name: <input type='text' ng-model='player.name'></p>
+		<p ng-show='playerErrors.name' class='error-msg'>Error: Player name required.</p>
+		<p>Player Nickname: (optional) <input type='text' ng-model='player.handle'></p>
+		<p>Gender: (m or f) <input type='text' ng-model='player.gender'></p>
+		<p ng-show='playerErrors.gender' class='error-msg'>Error: gender must be 'm' or 'f'.</p>
+		<button ng-click='submitPlayer()'>Submit</button>
+		<button ng-click='deletePlayer()'>Delete Player</button>
+		<!-- verify delete -->
+
+		<!-- checkboxes to adding to a team; later -->
+
+</body>
+</html>

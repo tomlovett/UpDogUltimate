@@ -88,3 +88,7 @@ li {
 .record-score{
 	padding: 5px;
 }
+
+.error-msg {
+	color: red;
+}

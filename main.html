@@ -4,6 +4,7 @@
 	<title>UpDog Ultimate</title>
 	<link rel="stylesheet" href="main.css">
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular.js"></script>
+	<script type-'text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore.js"></script>
 	<script type="text/javascript" src="main.js"></script>
 </head>
 
@@ -14,7 +15,7 @@
 		<div class="score col-1-4"> - </div>
 		<div class="score col-1-4">{{game.score[1]}}</div>
 		<br>
-		<div class="team-name col-1-4">US</div>
+		<div class="team-name col-1-4">{{team.name}}</div>
 		<div class="timer col-1-4"></div>
 		<div class="team-name col-1-4">THEM</div>
 	</div>
