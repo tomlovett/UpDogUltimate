@@ -39,21 +39,21 @@
 		</div>
 		<div class='bench men'>
 			<ul>
-				<li class="male" ng-repeat="guy in team.men.bench" ng-click="subOnM($index)">{{guy.handle}}</li>
+				<li class="male" ng-repeat="guy in team.men.bench" ng-click="subOn($index, team.men)">{{guy.handle}}</li>
 			</ul>
 		</div>
 		<div class='bench women'>
 			<ul>
-				<li class="female" ng-repeat="girl in team.women.bench" ng-click="subOnW($index)">{{girl.handle}}</li>
+				<li class="female" ng-repeat="girl in team.women.bench" ng-click="subOn($index, team.women)">{{girl.handle}}</li>
 			</ul>
 		</div>
 
 	<div class='bench' id="field">
 		<ul>
-			<li ng-repeat="player in team.women.field" ng-click="subOff($index, subMode)">{{player.handle}}</li>
+			<li class='female' ng-repeat="player in team.women.field" ng-click="subOff($index, team.women)">{{player.handle}}</li>
 		</ul>
 		<ul>
-			<li ng-repeat='player in team.men.field' ng-click='subOff($index, subMode)'>
+			<li class='male' ng-repeat='player in team.men.field' ng-click="subOff($index, team.men)">{{player.handle}}</li>
 		</ul>
 		<button ng-click="clearLine()" ng-show="subMode">Clear Line</button>
 	</div>

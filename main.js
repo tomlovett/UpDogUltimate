@@ -5,7 +5,7 @@ UpDog.controller('gameManager', ['$scope', 'utility', function($scope, utility) 
 
 		$scope.team = utility.darkSide;
 
-		$scope.subMode = true;
+		$scope.subMode = true;  // converting to an object for later
 		$scope.us = 0;
 		$scope.them = 0;
 
@@ -23,64 +23,57 @@ UpDog.controller('gameManager', ['$scope', 'utility', function($scope, utility) 
 			// initializing Point objects?
 		}
 
-		$scope.subOnM = function(index) {
-			var player = $scope.team.men.bench.splice(index, 1)
-			$scope.team.men.field.push(player);
-			$scope.team.sortMen()
+
+// moving these three to Team object?
+		$scope.subOn = function(index, roster) {
+			var player = roster.bench.splice(index, 1);
+			roster.field.push(player[0]);
+			$scope.team.sort()
 		}
 
-		$scope.subonW = function(index) {
-
+		$scope.subOff = function(index, roster) {
+			var player = roster.field.splice(index, 1);
+			roster.bench.push(player[0]);
+			$scope.team.sort();
 		}
 
-/*
-		$scope.subOn = function(index, event) {
-			$scope.team.roster[index].onField = true;
-			console.log($scope.team.roster[index])
-		};
-
-		$scope.subOff = function(index) {
-			$scope.team.roster[index].onField = false;
+		$scope.clearLine = function() {
+			while ($scope.team.men.field.length > 0) {
+				$scope.subOff(0, $scope.team.men);
+			}
+			while ($scope.team.women.field.length > 0) {
+				$scope.subOff(0, $scope.team.women);
+			}
 		}
-
-		$scope.benchMen   = { gender: 'm', onField: false };
-		$scope.fieldMen   = { gender: 'm', onField: true  };
-		$scope.benchWomen = { gender: 'f', onField: false };
-		$scope.fieldWomen = { gender: 'f', onField: true  };
-*/
 
 }]);
 
 UpDog.factory('utility', function() {
 	var service = {};
 
-	service.Player = function(name, gender, handle) {
-		return {
-			name   :  name,
-			gender :  gender,
-			handle :  (handle || name),
-			onField:  false,
-			game   :  [0, 0, 0],
-			career :  [0, 0, 0],
-			points :  []
+	 function Player(name, gender, handle) {
+		this.name   =  name;
+		this.gender =  gender;
+		this.handle =  (handle || name);
+		this.game   =  [0, 0, 0];
+		this.career =  [0, 0, 0];
+		this.points =  []
+	}
+
+	Player.prototype = {
+		markPoint : function(point) {
+			this.game[0]   += point.result; // eh, point or not
+			this.game[1]   += 1;
+			this.career[0] += point.result;
+			this.career[1] += 1;
 		}
 	}
 
-	service.markPoint = function(player, point) {
-		player.game[0] += point.result;
-		player.game[1] += 1;
-		player.career[0] += point.result;
-		player.career[1] += 1;
-	}
-
-
-	service.Point = function(receivedPull) {
-		return {
-			receivedPull : receivedPull,
-			time 		 : undefined,
-			playersOn 	 : [],
-			result 		 : undefined
-		}
+	function Point(pulling) {
+		this.pulling   = pulling;
+		this.time 	   = Date.now();
+		this.playersOn = [];
+		// this.result    = undefined add when recording point
 	}
 
 	service.parsePoint = function(player, point) {
@@ -90,77 +83,40 @@ UpDog.factory('utility', function() {
 		})
 	}
 
-	service.Team = function(name) {
-		return {
-			name  : name,
-			men	  : { bench: [], field: [] },
-			women : { bench: [], field: [] }
-			}
-		}
-
 	function Team(name) {
-		this.name = name;
-		this.men = { bench: [], field: [] }
+		this.name  = name;
+		this.men   = { bench: [], field: [] }
 		this.women = { bench: [], field: [] }
 	}
 
 	Team.prototype = {
 		constructor: Team,
-		sortMen : function() {
-			this.men.bench.sort();
-			this.men.field.sort();
-		},
-		sortWomen : function () {
-			this.women.bench.sort();
-			this.women.field.sort();
-		}
-	}
-
-	service.addToRoster = function(player, team) {
-		if (player.gender == 'm') {
-			team.men.bench.push(player);
-			team.men.bench.sort()
-		} else {
-			team.women.bench.push(player);
-			team.women.bench.sort()
-		}
-	}
-
-// isolating all of this in another factory
-
-	service.Team.prototype.sort = function() {
-		var sortFunc = function(a, b) {
-			if (a.gender === 'f' && b.gender === 'm') {
-				return -1;
-			} else if (a.gender === 'm' && b.gender === 'f') {
+		sortFunc : function(a, b) {
+			if (a.handle > b.handle) {
 				return 1;
-			} else if (a.name.toLowerCase() < b.name.toLowerCase()) {
+			} else if (a.handle < b.handle) {
 				return -1;
-			} else if (a.name.toLowerCase() > b.name.toLowerCase()) {
-				return 1;
 			} else {
 				return 0;
 			}
+		},
+		sort : function() {
+			this.men.bench.sort(this.sortFunc);
+			this.men.field.sort(this.sortFunc);
+			this.women.bench.sort(this.sortFunc);
+			this.women.field.sort(this.sortFunc);
+		},
+		addToRoster : function(player) {
+			if (player.gender == 'm') {
+				this.men.bench.push(player);
+				this.sort()
+			} else {
+				this.women.bench.push(player);
+				this.sort()
+			}
 		}
-		this.men.bench.sort(sortFunc);
-		this.women.bench.sort(sortFunc);
-		this.men.field.sort(sortFunc);
-		this.women.field.sort(sortFunc);
 	}
 
-	service.sortPlayers = function(a, b) {
-		if (a.gender === 'f' && b.gender === 'm') {
-			return -1;
-		} else if (a.gender === 'm' && b.gender === 'f') {
-			return 1;
-		} else if (a.name.toLowerCase() < b.name.toLowerCase()) {
-			return -1;
-		} else if (a.name.toLowerCase() > b.name.toLowerCase()) {
-			return 1;
-		} else {
-			return 0;
-		}
-	}
 
 	var ds = [
 		{ name: 'Court', 	gender: 'f'	},
@@ -179,14 +135,16 @@ UpDog.factory('utility', function() {
 		{ name: 'David', 	gender: 'm' }
 	];
 
-	service.darkSide = new Team('Dark Side');
+	var darkSide = new Team('Dark Side');
 
-	ds.forEach(function(player) {
-		player = service.Player(player.name, player.gender);
-		service.addToRoster(player, service.darkSide)
+	ds.forEach(function(person) {
+		person = new Player(person.name, person.gender);
+		darkSide.addToRoster(person)
 	});
 
-	// service.darkSide.sort()
+	darkSide.sort()
+
+	service.darkSide = darkSide;
 
 	return service;
 
