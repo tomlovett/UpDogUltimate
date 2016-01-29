@@ -1,37 +1,43 @@
 var UpDog = angular.module('UpDog', []);
 
 UpDog.controller('gameManager', ['$scope', 'utility', function($scope, utility) {
-		$scope.utility = utility; // not really necessary, more for troubleshooting
+		$scope.utility = utility; 
 
 		$scope.team = utility.darkSide;
+		$scope.game = new utility.Game()
 
-		$scope.subMode = true;  // converting to an object for later
-		$scope.us = 0;
-		$scope.them = 0;
+		$scope.subMode = true;
 
-		$scope.recordScore = function(val) {
-			if (val == 1) {
-				$scope.us += 1
-			} else {
-				$scope.them += 1
-			}
+		$scope.score = function(result) {
+			$scope.game.recordPoint(result);
 			$scope.subMode = true;
 		} 
 
 		$scope.doneSubbing = function() {
 			$scope.subMode = false;
-			// initializing Point objects?
+			console.log('game: ', $scope.game);
+			$scope.logOnField();
 		}
 
+		$scope.logOnField = function() {
+			$scope.team.men.field.forEach(function(player) {
+				$scope.game.currentPoint.playersOn.push(player);
+			})
+			$scope.team.women.field.forEach(function(player) {
+				$scope.game.currentPoint.playersOn.push(player);
+			})
+		}
 
-// moving these three to Team object?
+// can collapse into one function in future, when more functionality added
 		$scope.subOn = function(index, roster) {
+			if (!$scope.subMode) { return; }
 			var player = roster.bench.splice(index, 1);
 			roster.field.push(player[0]);
 			$scope.team.sort()
 		}
 
 		$scope.subOff = function(index, roster) {
+			if (!$scope.subMode) { return; }
 			var player = roster.field.splice(index, 1);
 			roster.bench.push(player[0]);
 			$scope.team.sort();
@@ -49,8 +55,7 @@ UpDog.controller('gameManager', ['$scope', 'utility', function($scope, utility) 
 }]);
 
 UpDog.factory('utility', function() {
-	var service = {};
-
+// Player \\
 	 function Player(name, gender, handle) {
 		this.name   =  name;
 		this.gender =  gender;
@@ -61,28 +66,15 @@ UpDog.factory('utility', function() {
 	}
 
 	Player.prototype = {
-		markPoint : function(point) {
-			this.game[0]   += point.result; // eh, point or not
+		markPoint : function(result) {
+			this.game[0]   += result; // eh, point or not
 			this.game[1]   += 1;
-			this.career[0] += point.result;
+			this.career[0] += result;
 			this.career[1] += 1;
 		}
 	}
 
-	function Point(pulling) {
-		this.pulling   = pulling;
-		this.time 	   = Date.now();
-		this.playersOn = [];
-		// this.result    = undefined add when recording point
-	}
-
-	service.parsePoint = function(player, point) {
-		point.playersOn.forEach(function(player) {
-			player.markPoint(point);
-			player.points.push(point);
-		})
-	}
-
+// Team \\
 	function Team(name) {
 		this.name  = name;
 		this.men   = { bench: [], field: [] }
@@ -109,15 +101,62 @@ UpDog.factory('utility', function() {
 		addToRoster : function(player) {
 			if (player.gender == 'm') {
 				this.men.bench.push(player);
-				this.sort()
 			} else {
 				this.women.bench.push(player);
-				this.sort()
 			}
+			this.sort()
 		}
 	}
 
+// Game \\
+	function Game() {
+		this.score = [0,0];
+		this.pointHistory = [];
+		this.currentPoint = new Point(1);
+	}
 
+	Game.prototype = {
+		constructor: Game,
+		recordPoint: function(result) {
+			this.updateScoreboard(result)
+			this.currentPoint.recordResult(result)
+			this.pointHistory.push(this.currentPoint);
+			this.updatePlayerPoints(this.currentPoint);
+			this.currentPoint = new Point(result);
+		},
+		updateScoreboard: function(result) {
+			if (result == 1) {
+				this.score[0] += 1;
+			} else {
+				this.score[1] += 1;
+			} 
+		},
+		updatePlayerPoints: function(point) {
+			point.playersOn.forEach(function(player) {
+				player.points.push(point);
+			});
+		}
+	}
+
+// Point \\
+	function Point(pulling) {
+		this.pulling   = pulling;
+		this.time 	   = Date.now();
+		this.playersOn = [];
+		this.result    = undefined
+	}
+
+	Point.prototype = {
+		constructor: Point,
+		recordResult: function(result) {
+			this.result = result;
+			this.playersOn.forEach(function(player) {
+				player.markPoint(result);
+			});
+		}
+	}
+/* pre-loads */
+/* --------- */
 	var ds = [
 		{ name: 'Court', 	gender: 'f'	},
 		{ name: 'Scout', 	gender: 'f' },
@@ -144,8 +183,12 @@ UpDog.factory('utility', function() {
 
 	darkSide.sort()
 
-	service.darkSide = darkSide;
-
-	return service;
+	return {
+		Player 	 : Player,
+		Team 	 : Team,
+		Game 	 : Game,
+		Point 	 : Point,
+		darkSide : darkSide
+	};
 
 });

@@ -10,9 +10,9 @@
 <body ng-controller='gameManager'>
 
 	<div class='scoreboard'>
-		<div class="score col-1-4">{{us}}</div>
+		<div class="score col-1-4">{{game.score[0]}}</div>
 		<div class="score col-1-4"> - </div>
-		<div class="score col-1-4">{{them}}</div>
+		<div class="score col-1-4">{{game.score[1]}}</div>
 		<br>
 		<div class="team-name col-1-4">US</div>
 		<div class="timer col-1-4"></div>
@@ -21,13 +21,13 @@
 
 	<div class='scores-subs'> 
 		<div class='col-1-4'>
-			<button class='record-score us' ng-hide='subMode' ng-click="recordScore(true)">We scored!!</button>
+			<button class='record-score us' ng-hide='subMode' ng-click="score(1)">We scored!!</button>
 		</div>
 		<div class='col-1-4'>
 			<button ng-show='subMode' ng-click='doneSubbing()'>Done Substitutions</button>
 		</div>
 		<div class='col-1-4'>
-			<button class='record-score them' ng-hide='subMode' ng-click="recordScore(false)">They scored...</button>
+			<button class='record-score them' ng-hide='subMode' ng-click="score(-1)">They scored...</button>
 		</div>
 	</div>
 

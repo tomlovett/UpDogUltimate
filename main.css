@@ -54,10 +54,12 @@ div {
 
 .male {
 	background-color: #0000b3;
+	border-radius: 5px;
 }
 
 .female {
 	background-color: #ff33cc;
+	border-radius: 5px;
 }
 
 .bench {
