@@ -49,14 +49,15 @@
 			</ul>
 		</div>
 
-	<div class='bench' id="field">
-		<ul>
-			<li class='female' ng-repeat="player in team.women.field" ng-click="sub($index, team.women.field, team.women.bench)">{{player.handle}}</li>
-		</ul>
-		<ul>
-			<li class='male' ng-repeat='player in team.men.field' ng-click="sub($index, team.men.field, team.men.bench)">{{player.handle}}</li>
-		</ul>
-		<button ng-click="clearLine()" ng-show="subMode">Clear Line</button>
+		<div class='bench' id="field">
+			<ul>
+				<li class='female' ng-repeat="player in team.women.field" ng-click="sub($index, team.women.field, team.women.bench)">{{player.handle}}</li>
+			</ul>
+			<ul>
+				<li class='male' ng-repeat='player in team.men.field' ng-click="sub($index, team.men.field, team.men.bench)">{{player.handle}}</li>
+			</ul>
+			<button ng-click="clearLine()" ng-show="subMode">Clear Line</button>
+		</div>
 	</div>
 
 	<div class='bonus-bar'>
