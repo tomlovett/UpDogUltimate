@@ -86,7 +86,13 @@ UpDog.controller('gameManager', ['$scope', 'utility', function($scope, utility) 
 			}
 		}
 
-}]);
+}])
+
+UpDog.controller('gameStats', ['$scope', 'utility', function($scope, utility) {
+
+	$scope.game = utility.dummyGame
+
+}])
 
 UpDog.controller('settings', ['$scope', 'utility', function($scope, utility) {
 	$scope.player = {}
@@ -125,7 +131,7 @@ UpDog.controller('settings', ['$scope', 'utility', function($scope, utility) {
 		line.splice(index, 1)  // change to team
 	}
 
-}]);
+}])
 
 UpDog.factory('utility', function() {
 // record stats and interpret stats separately
@@ -175,6 +181,7 @@ UpDog.factory('utility', function() {
 		recordPoint: function(result) {
 			this.updateScoreboard(result)
 			this.currentPoint.recordResult(result)
+			this.currentPoint.score = this.score.slice()
 			this.pointHistory.push(this.currentPoint)
 			this.updatePlayerPoints(this.currentPoint)
 			this.currentPoint = new Point(result)
@@ -199,6 +206,7 @@ UpDog.factory('utility', function() {
 		this.playersOn = []
 		this.result    = undefined	// 1 or -1
 		this.stats	   = []
+		this.score 	   = []
 	}
 
 	Point.prototype = {
@@ -244,12 +252,31 @@ UpDog.factory('utility', function() {
 		darkSide.addToRoster(person)
 	})
 
+	var dummyGame = new Game()
+	for (var i = 0; i < 3; i++) {
+		dummyGame.currentPoint.playersOn.push(darkSide.men.bench[i])
+		dummyGame.currentPoint.playersOn.push(darkSide.women.bench[i])
+	}
+
+	dummyGame.recordPoint(0)
+	dummyGame.recordPoint(1)
+	dummyGame.recordPoint(1)
+	dummyGame.recordPoint(0)
+	dummyGame.recordPoint(0)
+	dummyGame.recordPoint(1)
+	dummyGame.recordPoint(1)
+	dummyGame.recordPoint(0)
+	dummyGame.recordPoint(1)
+
+	console.log(dummyGame)
+
 	return {
 		Player 	 : Player,
 		Team 	 : Team,
 		Game 	 : Game,
 		Point 	 : Point,
-		darkSide : darkSide
+		darkSide : darkSide,
+		dummyGame: dummyGame
 	}
 
 })
