@@ -94,3 +94,7 @@ li {
 .error-msg {
 	color: red;
 }
+
+.vert-middle {
+	vertical-align: middle;
+}

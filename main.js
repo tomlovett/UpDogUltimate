@@ -92,6 +92,17 @@ UpDog.controller('gameStats', ['$scope', 'utility', function($scope, utility) {
 
 	$scope.game = utility.dummyGame
 
+	$scope.expandPoints = {}
+
+	$scope.expand = function(index) {
+		if ($scope.expandPoints[index]) {
+			delete $scope.expandPoints[index]
+		} else {
+			$scope.expandPoints[index] = true
+		}
+		console.log('expand: ', $scope.expandPoints)
+	}
+
 }])
 
 UpDog.controller('settings', ['$scope', 'utility', function($scope, utility) {
@@ -218,6 +229,14 @@ UpDog.factory('utility', function() {
 		},
 		addMetric: function(player, metric) {
 			this.stats.push(new Metric(player, metric))
+		},
+		shallowString: function() {
+			return 'stuff I want for this view'
+		},
+		deepString: function() {
+			var output = ''
+			
+
 		}
 	}
 
@@ -259,10 +278,30 @@ UpDog.factory('utility', function() {
 	}
 
 	dummyGame.recordPoint(0)
+	for (var i = 0; i < 3; i++) {
+		dummyGame.currentPoint.playersOn.push(darkSide.men.bench[i])
+		dummyGame.currentPoint.playersOn.push(darkSide.women.bench[i])
+	}
 	dummyGame.recordPoint(1)
+	for (var i = 0; i < 3; i++) {
+		dummyGame.currentPoint.playersOn.push(darkSide.men.bench[i])
+		dummyGame.currentPoint.playersOn.push(darkSide.women.bench[i])
+	}
 	dummyGame.recordPoint(1)
+	for (var i = 0; i < 3; i++) {
+		dummyGame.currentPoint.playersOn.push(darkSide.men.bench[i])
+		dummyGame.currentPoint.playersOn.push(darkSide.women.bench[i])
+	}
 	dummyGame.recordPoint(0)
+	for (var i = 0; i < 3; i++) {
+		dummyGame.currentPoint.playersOn.push(darkSide.men.bench[i])
+		dummyGame.currentPoint.playersOn.push(darkSide.women.bench[i])
+	}
 	dummyGame.recordPoint(0)
+	for (var i = 0; i < 3; i++) {
+		dummyGame.currentPoint.playersOn.push(darkSide.men.bench[i])
+		dummyGame.currentPoint.playersOn.push(darkSide.women.bench[i])
+	}
 	dummyGame.recordPoint(1)
 	dummyGame.recordPoint(1)
 	dummyGame.recordPoint(0)
