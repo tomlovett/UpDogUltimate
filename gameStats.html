@@ -18,16 +18,16 @@
 	</div>
 	
 	<div class="row" ng-repeat="point in game.pointHistory">
-		<div class=".col-xs-4">
+		<div class=".col-s-4">
 			<div ng-show="point.result">point.shallow() result: {{point.result}}</div>
 			<div ng-show="expand[i]">point.expand()</div>
 		</div>
 
-		<div class=".col-xs-2">
+		<div class=".col-s-2">
 			<h3>{{point.score[0]}} - {{point.score[1]}}</h3>
 		</div>
 
-		<div class=".col-xs-4">
+		<div class=".col-s-4">
 			<div ng-hide="point.result">point.shallow() result: {{point.result}}</div>
 			<div ng-show="expand[i]">point.expand()</div>
 		</div>
