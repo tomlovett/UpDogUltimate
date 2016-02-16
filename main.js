@@ -15,7 +15,7 @@ UpDog.controller('gameManager', ['$scope', 'utility', function($scope, utility) 
 		$scope.score = function(result) {
 			$scope.game.recordPoint(result)
 			$scope.subMode = true
-			console.log($scope.game)
+			// console.log($scope.game)
 		} 
 
 		$scope.doneSubbing = function() {
@@ -117,7 +117,7 @@ UpDog.controller('settings', ['$scope', 'utility', function($scope, utility) {
 			return
 		}
 		$scope.nameError = false
-		var player = new utility.Player($scope.player.name, gender, $scope.player.handle)
+		var player = new utility.Player($scope.player.name, gender, $scope.player.handle, $scope.player.email)
 		$scope.team.addToRoster(player) // change to team
 		$scope.player = {}
 	}
@@ -148,14 +148,15 @@ UpDog.factory('utility', function() {
 // record stats and interpret stats separately
 
 // Player \\
-	 function Player(name, gender, handle) {
-		this.name   =  name
-		this.gender =  gender
-		this.handle =  handle || name
-		this.games  =  []
-		this.points =  []
+	 function Player(name, gender, handle, email) {
+		this.name   = name
+		this.gender = gender
+		this.handle = handle || name
+		this.email  = email
+		this.games  = []
+		this.points = []
 	}
-
+	
 // Team \\
 // this.game?
 	function Team(name) {
@@ -199,12 +200,12 @@ UpDog.factory('utility', function() {
 		},
 		updateScoreboard: function(result) {
 			if (result == 1) { this.score[0] += 1 }
-			else { this.score[1] += 1 } 
+			else 			 { this.score[1] += 1 } 
 		},
 		updatePlayerPoints: function(point) {
 			point.playersOn.forEach(function(player) {
 				player.points.push(point)
-			});
+			})
 		}
 	}
 
@@ -235,7 +236,7 @@ UpDog.factory('utility', function() {
 		},
 		deepString: function() {
 			var output = ''
-			
+
 
 		}
 	}
@@ -262,7 +263,7 @@ UpDog.factory('utility', function() {
 		{ name: 'Zy',	 	gender: 'm' },
 		{ name: 'Johnny', 	gender: 'm' },
 		{ name: 'David', 	gender: 'm' }
-	];
+	]
 
 	var darkSide = new Team('Dark Side')
 
@@ -277,31 +278,18 @@ UpDog.factory('utility', function() {
 		dummyGame.currentPoint.playersOn.push(darkSide.women.bench[i])
 	}
 
+var dudesOnly = {'gender' : 'm'}
+var updateFilter = function(productType) {
+	var productFilter = { 'type' : productType}
+}
+
+// doesn't load players between points
+
 	dummyGame.recordPoint(0)
-	for (var i = 0; i < 3; i++) {
-		dummyGame.currentPoint.playersOn.push(darkSide.men.bench[i])
-		dummyGame.currentPoint.playersOn.push(darkSide.women.bench[i])
-	}
 	dummyGame.recordPoint(1)
-	for (var i = 0; i < 3; i++) {
-		dummyGame.currentPoint.playersOn.push(darkSide.men.bench[i])
-		dummyGame.currentPoint.playersOn.push(darkSide.women.bench[i])
-	}
 	dummyGame.recordPoint(1)
-	for (var i = 0; i < 3; i++) {
-		dummyGame.currentPoint.playersOn.push(darkSide.men.bench[i])
-		dummyGame.currentPoint.playersOn.push(darkSide.women.bench[i])
-	}
 	dummyGame.recordPoint(0)
-	for (var i = 0; i < 3; i++) {
-		dummyGame.currentPoint.playersOn.push(darkSide.men.bench[i])
-		dummyGame.currentPoint.playersOn.push(darkSide.women.bench[i])
-	}
 	dummyGame.recordPoint(0)
-	for (var i = 0; i < 3; i++) {
-		dummyGame.currentPoint.playersOn.push(darkSide.men.bench[i])
-		dummyGame.currentPoint.playersOn.push(darkSide.women.bench[i])
-	}
 	dummyGame.recordPoint(1)
 	dummyGame.recordPoint(1)
 	dummyGame.recordPoint(0)

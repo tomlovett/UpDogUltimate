@@ -16,8 +16,7 @@
 		<p>Player Name: <input type='text' ng-model='player.name'></p>
 		<p ng-show='nameError' class='error-msg'>Error: Player name required.</p>
 		<p>Player Nickname: (optional) <input type='text' ng-model='player.handle'></p>
-<!-- 		<p>Gender: (m or f) <input type='text' ng-model='player.gender'></p>
-		<p ng-hide='verified.gender' class='error-msg'>Error: gender must be 'm' or 'f'.</p> -->
+		<p>Player Email: (optional) <input type="email" ng-model="player.email"></p>
 		<button class='col-1-3 female' ng-click='submitPlayer("f")'>Submit Girl</button>
 		<div class='col-1-4'></div>
 		<button class='col-1-3 male' ng-click='submitPlayer("m")'>Submit Guy</button>
